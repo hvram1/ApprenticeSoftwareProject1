@@ -16,6 +16,12 @@ The task is to write a server which will accept multiple of these Logstreams and
 ### Not in scope
       1. No need to provide pagination ( back / forward ). 
 
+### Limits
+     1.The server should store up to 2,00,000 events
+     2.The server should handle upto 200 log streams
+     3.The server should handle 50 browsers . Each browser should have a response time of less than 1 second
+     4.The browser will have a max lag ( i.e. between event in server and event notified in browser of less than 10 seconds )
+     
 ## What is expected output 
      1. Requirements document outlining the problem and the assumptions 
      2. Github project structure containing server . 
