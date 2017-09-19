@@ -1,7 +1,7 @@
 # ApprenticeSoftwareProject1
 This is a project that will help new software developers tune their software skills. This project is the first in the series of projects . This project will be the base line and will create a working project baseline . The subsequent projects will contain fine tuning of the design 
 # Software Engineering 
-I read a book [Apprenticeship Patterns: Guidance for the Aspiring Software Craftsman] (https://www.amazon.in/Apprenticeship-Patterns-Guidance-Aspiring-Craftsman/dp/8184048459?tag=googinhydr18418-21&tag=googinkenshoo-21&ascsubtag=82d37f98-b848-4dc5-9da4-1ccc0b811d3c) and have been inspired by it . This project is an attempt to create something on the same lines for the team of software engineers
+I read a book [ Apprenticeship Patterns: Guidance for the Aspiring Software Craftsman ](https://www.amazon.in/Apprenticeship-Patterns-Guidance-Aspiring-Craftsman/dp/8184048459?tag=googinhydr18418-21&tag=googinkenshoo-21&ascsubtag=82d37f98-b848-4dc5-9da4-1ccc0b811d3c) and have been inspired by it . This project is an attempt to create something on the same lines for the team of software engineers
 Engineering is always about making the trade offs for the use case . Engineering is also about mastering the set of tools used in day to day jobs . A modern software engineer is expected to not only write the code but test and deploy it to production .  This should give you an idea of the expectation of what is required 
 
 ## What is the problem
