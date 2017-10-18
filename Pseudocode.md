@@ -1,8 +1,13 @@
-# SERVER SIDE - Filter the data when it arrives
+#******************************************************************************************************************
+#                   SERVER SIDE - Filter the data when it arrives
+#******************************************************************************************************************
 ## Assume the below details are available at sever
 ### main object contains the entire event data till that time
 ### Client_Obj = [CUID1,CUID2,CUID3,..] - Client_Obj is an array to store the client ids.
 ### Client_UIDs = { CUID1 : [P1,IP1], CUID2 : [P1,IP1], CUID3 : [P1,IP1],..}
+
+#### Time complexity of the program is O(n) , if Client_Obj.length is n. 
+
 GET Event_data;
 Do
     IF (Client not Present) 
@@ -29,9 +34,14 @@ Do
     END ELSE
 END DO
 
-#****************************************************************************************
 
-# SERVER SIDE - Storing the Event_data in Main_obj
+
+#.........................................................................................................................
+
+#**************************************************************************************************************************
+#                  SERVER SIDE - Storing the Event_data in Main_obj
+#**************************************************************************************************************************
+
 ## Assume the below details are available at sever
 ### main object contains the entire event data till that time
 ### Client_Obj = [CUID1,CUID2,CUID3,..] - Client_Obj is an array to store the client ids and CUID - Client UID
@@ -41,6 +51,8 @@ END DO
 ### EUID refers the Main_Obj
 ### Main_Obj structure - { EUID1:{ProgramName: p1, IPaddress : IP1, UserName :U1, TimeStamp : "7.77", Payload :"text" },
 ###                        EUID2:{ProgramName: p3 IPaddress : IP2, UserName :U2, TimeStamp : "5.87", Payload :"happy" },..}
+
+#### Time complexity of the program is O(n*lei) , if Client_Obj.length is n and programname_Object.length is lei. 
 
 
 GET Event_data
@@ -73,4 +85,4 @@ DO
     END IF
 
     END DO
-                       
+#.............................................................................................................................                  
