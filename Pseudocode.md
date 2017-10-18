@@ -31,7 +31,7 @@ END DO
 
 #****************************************************************************************
 
-#SERVER SIDE - Storing the Event_data in Main_obj
+# SERVER SIDE - Storing the Event_data in Main_obj
 ## Assume the below details are available at sever
 ### main object contains the entire event data till that time
 ### Client_Obj = [CUID1,CUID2,CUID3,..] - Client_Obj is an array to store the client ids and CUID - Client UID
