@@ -4,7 +4,9 @@
 ## Assume the below details are available at server
 #### main object contains the entire event data till the current time
 #### Client_Obj = [CUID1,CUID2,CUID3,..] - Client_Obj is an array to store the client ids.
-#### Client_UIDs = { CUID1 : [P1,IP1], CUID2 : [P1,IP1], CUID3 : [P1,IP1],..}
+#### Client_UIDs = { CUID1 : { PropertyName:P1, IPaddress:IP1}, 
+####                 CUID2 : [ PropertyName:P1, IPaddress:IP1], 
+####                 CUID3 : [PropertyName:P1, IPaddress:IP1],..}
 
 #### Time complexity of the program is O(n) , if Client_Obj.length is n. 
 
@@ -18,32 +20,53 @@ DO
 
     ELSE
 
-        FOR (EACH Obj in Client_Obj)
+        FOR EACH Obj in Client_Obj
+            
+            FOR EACH key in Obj
 
-            FETCH Filter_Variables(Values may be [P1(program_name),IP1(IP address),etc]);
+             IF obj.hasOwnProperty(key)
 
-            FOR ( i=0; i< (Filter_Variables.Length - 1 ) ; i++) 
+                key == Program_Name
 
-                COMPARE Filter_Variables[i] with Event_data.KeyValue;
+                         IF ( COMPARE obj.key with Event_data.Program_Name )
+                               
+                         END IF
+                         ELSE
+                         SET FLAG = 0;
+                         BREAK;// coming out of the property checking since it failed in comparison
 
-                    IF (Comparison is TRUE)
-                        CONTINUE;
-                    END IF
+                key ==  IPaddress
 
-                    ELSE
-                        SET FLAG TO 0
-                        BREAK;
-                    END ELSE 
+                        IF ( COMPARE obj.key with Event_data.IPaddress)
+                              
+                        END IF
+                        ELSE
+                         SET FLAG = 0;
+                    BREAK;
+                 key == UserName
+                         IF ( COMPARE obj.key with Event_data.UserName )
+                                
+                         END IF
+                         ELSE
+                         SET FLAG = 0;
+                         BREAK;
 
-            END FOR
+                        END IF
+                END FOR
 
-            IF(FLAG) 
-            SEND Event_data to Obj (it's Client id);
-            END IF
-        
-         END FOR
-        STORE Event_data in Main_Obj;
+                // we can have the above module for any number of variables.
 
+                
+                IF (FLAG)
+                 SEND Event_data to Obj (it's Client id);      
+                END 
+        END FOR
+                
+                 STORE Event_data in Main_Obj;
+               
+
+
+           
     END ELSE
 
 END DO

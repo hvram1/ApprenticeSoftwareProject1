@@ -1,7 +1,7 @@
 # *************************************************
 #   SERVER SIDE - Filter the data when it arrives
 # *************************************************
-## Assume the below details are available at sever
+## Assume the below details are available at server
 #### main object contains the entire event data till the current time
 #### Client_Obj = [CUID1,CUID2,CUID3,..] - Client_Obj is an array to store the client ids.
 #### Client_UIDs = { CUID1 : [P1,IP1], CUID2 : [P1,IP1], CUID3 : [P1,IP1],..}
@@ -41,7 +41,7 @@ END DO
 # ......................................................
 
 # ******************************************************
-#  SERVER SIDE - Storing the Event_data in Main_obj
+#  SERVER SIDE - Storing the Event_data in Main_obj and then filtering the data
 # ******************************************************
 
 ## Assume the below details are available at sever
