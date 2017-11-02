@@ -4,15 +4,13 @@ var express = require('express'),
     http = require('http'), 
     uid = require('uid'),
     data = {},
-    logs = {},
     logstream = {},
     connectedclients = {},
+    objectvalue = {},
     count = 0,
     eid,
     keyfields,
     cid;
-    
-   // eid=uid();
 
 var server = http.createServer(app).listen('8080','10.200.208.44');
 var io = require('socket.io').listen(server);
@@ -74,6 +72,7 @@ io.on('connection', function (socket)
  
 app.post('/eventslogs' , function (req, res) 
 {
+    var logs = {};
 
     // parsing the request body
     keyfields = JSON.parse(req.body);
@@ -99,7 +98,7 @@ app.post('/eventslogs' , function (req, res)
         console.log('eid'+ eid)
         store(eid,logs);
     }
-
+console.log('the log data'+ JSON.stringify(logs,null,2));
     res.end();
 });
 
@@ -115,16 +114,55 @@ function deleteclients(dd)
 {
     delete connectedclients[dd];
     console.log('total clientsconnected'+' '+ count);
-    console.log('the connected clients'+ '  '+ JSON.stringify(connectedclients,null,2) );
+    console.log('the connected clients'+ ' '+ JSON.stringify(connectedclients,null,2) );
 }
 
 //storing the data
 function store(eid,logs)
 {
-    data[eid]=  data + logs;
+   //for showing data data[eid]=  data + JSON.stringify(logs);
+//data[eid]=  data + JSON.stringify(logs);
+data[eid]= logs;
+
+
     for(var key in data)
     {
-    console.log('data.uid'+ key + JSON.stringify(data[key])); 
+        console.log('data with data id' + ' '+key +' '+JSON.stringify(data[key],null,2) );
+       
+        var temp = data[key];
+
+        if(!Object.keys(objectvalue).length)
+        {
+        
+            for(k in temp)
+            {  
+                console.log('enter into the if case to create a new one')
+                objectvalue[temp[k]] = [];
+                objectvalue[temp[k]].push(key);
+
+                //console.log('temp data with k and value'+ k +' '+objectvalue[temp[k]]);
+            }
+          
+        }
+        else
+        {
+            for(k in temp)
+            {
+                if(objectvalue.hasOwnProperty(temp.k))
+                {
+                    console.log('enter into the has own property')
+                    objectvalue[temp[k]].push(key);
+                }
+                else
+                {
+                    console.log('enter into else part of has own property')
+                    objectvalue[temp[k]] = [];
+                    objectvalue[temp[k]].push(key);
+                }
+            }
+        }
     }
+
+    console.log('object value'+JSON.stringify(objectvalue,null,2));
 
 }
