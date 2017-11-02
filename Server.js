@@ -125,22 +125,20 @@ function store(eid,logs)
 data[eid]= logs;
 
 
-    for(var key in data)
-    {
-        console.log('data with data id' + ' '+key +' '+JSON.stringify(data[key],null,2) );
+   
+        console.log('data with data id' + ' '+ eid +' '+JSON.stringify(data[eid],null,2) );
        
-        var temp = data[key];
+        var temp = logs;
 
         if(!Object.keys(objectvalue).length)
         {
         
             for(k in temp)
             {  
-                console.log('enter into the if case to create a new one')
+                console.log('enter into the if case to create a new one');
                 objectvalue[temp[k]] = [];
-                objectvalue[temp[k]].push(key);
+                objectvalue[temp[k]].push(eid);
 
-                //console.log('temp data with k and value'+ k +' '+objectvalue[temp[k]]);
             }
           
         }
@@ -148,20 +146,21 @@ data[eid]= logs;
         {
             for(k in temp)
             {
-                if(objectvalue.hasOwnProperty(temp.k))
+                if(objectvalue.hasOwnProperty(temp[k]))
                 {
-                    console.log('enter into the has own property')
-                    objectvalue[temp[k]].push(key);
+                    console.log('enter into the has own property');
+
+                    objectvalue[temp[k]].push(eid);
                 }
                 else
                 {
-                    console.log('enter into else part of has own property')
+                    console.log('enter into else part of has own property');
                     objectvalue[temp[k]] = [];
-                    objectvalue[temp[k]].push(key);
+                    objectvalue[temp[k]].push(eid);
                 }
             }
         }
-    }
+    
 
     console.log('object value'+JSON.stringify(objectvalue,null,2));
 
