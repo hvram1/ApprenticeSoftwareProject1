@@ -9,6 +9,7 @@
 <div id="data1"></div>
 <div id="data2"></div>
 
+
 <h1> communication with socket.io</h1>
 
         <script src='/socket.io/socket.io.js'></script>
@@ -24,11 +25,22 @@ socket.on("filtered data",function (data){
   console.log('Getting from server' + '<br>' + info)
     document.getElementById("data1").innerHTML += info ;
 }   );
+socket.on('eid',function(eventid){
+ document.getElementById("data2").innerHTML = eventid;
+});
 
-socket.on('clientsconnected',function(connectedclients){
-    document.getElementById("data2").innerHTML = connectedclients ;
-})
+// socket.on('clientsconnected',function(connectedclients){
+//     document.getElementById("data2").innerHTML = connectedclients ;
+// })
 
+
+
+// socket.on('updates',function (data){
+//     console.log('from client',data)
+//      document.getElementById("data1").innerHTML = data;
+//   }) 
+      // console.log('from client page');     
+  //console.log(data); 
 </script>
   
 </body>
