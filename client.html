@@ -18,18 +18,18 @@
 var socket = io.connect('http://10.200.208.44:8080');
 var info;
 
-socket.emit("initial","ok ! Send the data");
+socket.on("filtered data",function (data){
+  info = data;
+  // JSON.stringify(logs,null,2)
+  console.log('Getting from server' + '<br>' + info)
+    document.getElementById("data1").innerHTML += info ;
+}   );
 
 socket.on('clientsconnected',function(connectedclients){
     document.getElementById("data2").innerHTML = connectedclients ;
 })
 
-socket.on('Eventlogs',function (data){
-  info=data;
-  // JSON.stringify(logs,null,2)
-  console.log('Getting from server' + '<br>' + info)
-    document.getElementById("data1").innerHTML =JSON.stringify(info,null,2) ;
-})   
+
 
 // socket.on('updates',function (data){
 //     console.log('from client',data)
