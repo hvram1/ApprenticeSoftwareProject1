@@ -8,7 +8,7 @@ var express = require('express'),
     connectedclients = {},
     objectvalue = {},
     filtervar = [],
-    Eventids = [],
+    Eventids =[],
     count = 0,
     eid,
     keyfields,
@@ -54,34 +54,72 @@ io.on('connection', function (socket)
     cid = socket.id;
     //createclientsids(cid);
     
-    connectedclients[cid] = 'p3';
-    Eventids = objectvalue[connectedclients[cid]];
-    console.log('the event ids length'+ Eventids.length+ ' '+ 'they are'+Eventids);
-
-    if(Eventids.length)  
-    {
-        for(var i = 0;i < Eventids.length; i++)
+    connectedclients[cid] = ['p1','U2'];
+    var t=0;
+    var shortestarr=[];
+    var shortestarrno;
+    
+    for(var j = 0; j < connectedclients[cid].length;j++)
+    { 
+       
+        Eventids = objectvalue[connectedclients[cid][j]];
+        if(t==0)
         {
-            if(data.hasOwnProperty(Eventids[i]))
+            t = Eventids.length;
+            shortestarrno = j;
+          
+        }
+        else
+        {
+            if( t > Eventids.length)
             {
-                console.log('filtered data id to the client'+' '+Eventids[i]+' '+JSON.stringify(data[Eventids[i]],null,2));
-                socket.emit('filtered data',JSON.stringify(data[Eventids[i]],null,2));
+                 t = Eventids.length;
+                 shortestarrno = j;  
+
             }
 
         }
 
+        
     }
-  
+    shortestarr =  objectvalue[connectedclients[cid][shortestarrno]];
+
+    for(var k = 0;k < shortestarr.length;k++)
+    {
+        var val = 0, count = 1;
+        for(var j = 0; j < connectedclients[cid].length;j++)
+        {
+            var compare = objectvalue[ connectedclients[cid][j] ];
+            var val,count;
+            if(j == shortestarrno )
+            {
+            continue;
+            }
+            val = compare.indexOf(shortestarr[k]);
+            if(val)
+            {
+                count++;
+            }
+            else
+            {
+                break;
+            }
+        }
+        if(count == (connectedclients[cid].length))
+        {
+            if(data.hasOwnProperty(shortestarr[k]))
+            {
+                console.log('filtered data id to the client'+' '+shortestarr[k]+' '+JSON.stringify(data[shortestarr[k]],null,2));
+                socket.emit('filtered data',JSON.stringify(data[shortestarr[k]],null,2));
+            }
+
+        }
+        
+    }
 
     console.log('total clientsconnected'+' '+ count);
     console.log('the connected clients individual'+' '+JSON.stringify(connectedclients,null,2) );
 
-    // socket.on('initial',function(res)
-    // { 
-    //     console.log('response from client', res);
-    //     socket.emit('Eventlogs', data);
-
-    // });
 
     socket.on('disconnect',function()
     {
@@ -127,14 +165,7 @@ console.log('the log data'+ JSON.stringify(logs,null,2));
     res.end();
 });
 
-//creating clients ids
-// function createclientsids(d)
-// {
-//     connectedclients[d] = 'p1';
-//     console.log('total clientsconnected'+' '+ count);
-//     console.log('the connected clients individual'+' '+JSON.stringify(connectedclients,null,2) );
-// }
-// deleting disconnected clients
+
 function deleteclients(dd)
 {
     delete connectedclients[dd];
