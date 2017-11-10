@@ -23,24 +23,11 @@ socket.on("filtered data",function (data){
   info = data;
   // JSON.stringify(logs,null,2)
   console.log('Getting from server' + '<br>' + info)
-    document.getElementById("data1").innerHTML += info ;
+    document.getElementById("data1").innerHTML += info +" " ;
 }   );
 socket.on('eid',function(eventid){
- document.getElementById("data2").innerHTML = eventid;
+ document.getElementById("data2").innerHTML += eventid + " ";
 });
-
-// socket.on('clientsconnected',function(connectedclients){
-//     document.getElementById("data2").innerHTML = connectedclients ;
-// })
-
-
-
-// socket.on('updates',function (data){
-//     console.log('from client',data)
-//      document.getElementById("data1").innerHTML = data;
-//   }) 
-      // console.log('from client page');     
-  //console.log(data); 
 </script>
   
 </body>
