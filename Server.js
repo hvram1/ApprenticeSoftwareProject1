@@ -52,93 +52,112 @@ io.on('connection', function (socket)
     console.log('A user is connected');
     console.log(count + ' '+ 'client connected with id ' +' '+ socket.id);
     cid = socket.id;
-    createclientsids(cid);
+    // createclientsids(cid);
     var t = 0;
     var shortestarr = []; // storing event arrays of  filter variable which is having smaller array length 
     var shortestarrno;
-
-    for(var j = 0; j < connectedclients[cid].length;j++)
-    {        
-        Eventids = objectvalue[connectedclients[cid][j]];
-        console.log('the Eventids '+ ' ' +Eventids);
-        if(t == 0)
-        {
-            t = Eventids.length;
-            shortestarrno = j;
-        }
-        else
-        {
-            if( t > Eventids.length)
-            {
-                 t = Eventids.length;
-                 shortestarrno = j;
-            }
-
-        }
-    }
     
-    /* storing the event ids of the smallest array among all the filter variables say  p1 = [eid1,eid2] , U1 = [eid2,eid3,eid6].
-       so the shortestarr will contains the filter variable p1's value    */
 
-    shortestarr =  objectvalue[connectedclients[cid][shortestarrno]];
-    console.log('the shortest array index and value of that index'+ shortestarrno+' '+shortestarr);
-    for(var k = 0;k < shortestarr.length;k++)
+    socket.on('filterVariable',function(da)
     {
-        var val = 0, count1 = 1;
-        // connectedclients[cid].length shows the no of filter variables of that particular client.
+        console.log('the parameters'+ ' '+da);
+        createclientsids(cid,da);
+        console.log('the fuction returns again');
+        socket.emit('calculate',cid);
+        console.log('after the socket');
+       
+    })
+    socket.on('calculateSmallestArray',function(cid)
+    {
+        console.log('its entering into calculate');
+
         for(var j = 0; j < connectedclients[cid].length;j++)
-        {
-            // compare is an array contains the eids of that corresponding filter variable
-            
-            var compare = objectvalue[ connectedclients[cid][j] ];
-          
-            if(j == shortestarrno )
+        {        
+            Eventids = objectvalue[connectedclients[cid][j]];
+            console.log('the Eventids '+ ' ' +Eventids);
+            if(t == 0)
             {
-                // if the shortest array value is going to compare,skip the remaining steps and move on to next filter variable
-                continue;
-            }
-
-            /* if the eid or (shortestarr[k]) is present in the compare array then it will return the index of that eid 
-                otherwise it will return ' -1 ' as the value */
-
-            val = compare.indexOf(shortestarr[k]);
-
-            if(val)
-            {
-                /* if the compare array has the eid then count variable get incremented by one 
-                -> this one to ensure that all the filter variables array contains that particular eid
-                if all the variables contains that eid then count1 will have the same value equal to no of filter variables
-                */
-                count1++;
+                t = Eventids.length;
+                shortestarrno = j;
             }
             else
             {
-                /* if any filter variables array does not contain the eid,
-                 then the checking for that particular eid comes to an end 
-                 And it goes to check next eid in the shortest arr value
-                */
-                break;
+                if( t > Eventids.length)
+                {
+                    t = Eventids.length;
+                    shortestarrno = j;
+                }
+
             }
         }
 
-        // checking there is any event id in all the filter Variables array
+        /* storing the event ids of the smallest array among all the filter variables say  p1 = [eid1,eid2] , U1 = [eid2,eid3,eid6].
+        so the shortestarr will contains the filter variable p1's value    */
 
-        if(count1 == (connectedclients[cid].length))
+        shortestarr =  objectvalue[connectedclients[cid][shortestarrno]];
+        console.log('the shortest array index and value of that index'+ shortestarrno+' '+shortestarr);
+        for(var k = 0;k < shortestarr.length;k++)
         {
-            // after getting eid , checking that eid is present in the data object.
-            if(data.hasOwnProperty(shortestarr[k]))
+            var val = 0, count1 = 1;
+            // connectedclients[cid].length shows the no of filter variables of that particular client.
+            for(var j = 0; j < connectedclients[cid].length;j++)
             {
-                console.log('filtered data id to the client'+' '+ shortestarr[k]+' '+ JSON.stringify(data[shortestarr[k]],null,2));
-                // sending the eid of that event to the client side
-                socket.emit('eid',shortestarr[k]);
-                // sending the that particular event data to the client
-                socket.emit('filtered data',JSON.stringify(data[shortestarr[k]],null,2));
+                // compare is an array contains the eids of that corresponding filter variable
+
+                var compare = objectvalue[ connectedclients[cid][j] ];
+
+                if(j == shortestarrno )
+                {
+                    // if the shortest array value is going to compare,skip the remaining steps and move on to next filter variable
+                    continue;
+                }
+
+                /* if the eid or (shortestarr[k]) is present in the compare array then it will return the index of that eid 
+                otherwise it will return ' -1 ' as the value */
+
+                val = compare.indexOf(shortestarr[k]);
+
+                if(val)
+                {
+                    /* if the compare array has the eid then count variable get incremented by one 
+                    -> this one to ensure that all the filter variables array contains that particular eid
+                    if all the variables contains that eid then count1 will have the same value equal to no of filter variables
+                    */
+                    count1++;
+                }
+                else
+                {
+                    /* if any filter variables array does not contain the eid,
+                    then the checking for that particular eid comes to an end 
+                    And it goes to check next eid in the shortest arr value
+                    */
+                    break;
+                }
+            }
+
+            // checking there is any event id in all the filter Variables array
+
+            if(count1 == (connectedclients[cid].length))
+            {
+                // after getting eid , checking that eid is present in the data object.
+                if(data.hasOwnProperty(shortestarr[k]))
+                {
+                    console.log('filtered data id to the client'+' '+ shortestarr[k]+' '+ JSON.stringify(data[shortestarr[k]],null,2));
+                    // sending the eid of that event to the client side
+                    socket.emit('eid',shortestarr[k]);
+                    // sending the that particular event data to the client
+                    socket.emit('filtered data',JSON.stringify(data[shortestarr[k]],null,2));
+                }
+
             }
 
         }
-        
-    }
 
+
+
+    });
+
+    
 
     // Socket disconnection function
     socket.on('disconnect',function()
@@ -149,20 +168,22 @@ io.on('connection', function (socket)
         deleteclients(socket.id);
 
     });
+  
+
    
 
 });
 
 //creating clients ids
-function createclientsids(d)
+function createclientsids(cid,da)
 {
     // reading a file to get the filter variables for the connected client
-    var data = fs.readFileSync('Client.txt');
+    var data = da;
     var str = data.toString();
     var arr = str.split(',');
     console.log(str);
     console.log(arr);
-    connectedclients[d] = arr;
+    connectedclients[cid] = arr;
     console.log('total clientsconnected'+' '+ count);
     console.log('the connected clients individual'+' '+JSON.stringify(connectedclients,null,2) );
 }
