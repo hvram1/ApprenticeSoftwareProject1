@@ -1,0 +1,52 @@
+<html>
+<head>
+        <meta charset ='utf-8'/>
+        <title>socket.io</title>
+    </head>
+
+<body>
+<input type = "text" id = "variable" placeholder="Enter the parameters" />
+<button onclick = "filterVariable()" >Send</button>
+<div id = "demo"></div>
+<div id="data1"></div>
+<div id="data2"></div>
+
+
+<h1> communication with socket.io</h1>
+
+        <script src='/socket.io/socket.io.js'></script>
+      
+<script>
+
+var socket = io.connect('http://10.200.208.44:8080');
+var info;
+
+socket.on("filtered data",function (data){
+  info = data;
+  // JSON.stringify(logs,null,2)
+  console.log('Getting from server' + '<br>' + info)
+    document.getElementById("data1").innerHTML += info + " " ;
+}   );
+socket.on('eid',function(eventid){
+ document.getElementById("data2").innerHTML += eventid + " ";
+});
+socket.on('calculate',function(cid)
+{
+    console.log('its entering into client calculate');
+    socket.emit('calculateSmallestArray',cid);
+})
+</script>
+<script type = "text/javascript" >
+function filterVariable()
+        {
+            var v = document.getElementById('variable').value;
+            document.getElementById('demo').innerHTML = v;
+            console.log('the filter variable'+' '+ v);
+            socket.emit('filterVariable',v)
+        }
+</script>
+  
+</body>
+
+
+</html>   
